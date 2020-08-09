@@ -26,6 +26,7 @@ use PSX\Http\Request;
 use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 use PSX\Http\Server\ResponseFactory;
+use PSX\Uri\Uri;
 use Spiral\Goridge\StreamRelay;
 use Spiral\RoadRunner\HttpClient;
 use Spiral\RoadRunner\Worker;
@@ -84,7 +85,7 @@ class Engine implements EngineInterface
         }
 
         return new Request(
-            $rawRequest['ctx']['uri'],
+            new Uri($rawRequest['ctx']['uri']),
             $rawRequest['ctx']['method'],
             $rawRequest['ctx']['headers'],
             $rawRequest['body']
