@@ -1,0 +1,23 @@
+{
+  "name": "psx/engine-roadrunner",
+  "keywords": ["psx", "engine", "framework", "roadrunner"],
+  "homepage": "http://phpsx.org",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Christoph Kappestein",
+      "email": "christoph.kappestein@gmail.com",
+      "homepage": "http://christoph.kappestein.com/"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "psx/engine": "^0.1",
+    "spiral/roadrunner": "^1.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "PSX\\Engine\\Roadrunner\\": "src/"
+    }
+  }
+}
