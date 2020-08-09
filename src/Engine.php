@@ -98,7 +98,7 @@ class Engine implements EngineInterface
     public function respond(ResponseInterface $response): void
     {
         $this->httpClient->respond(
-            $response->getStatusCode(),
+            $response->getStatusCode() ?? 200,
             $response->getBody()->__toString(),
             $response->getHeaders()
         );
