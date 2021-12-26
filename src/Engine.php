@@ -41,15 +41,8 @@ use Spiral\RoadRunner\Worker;
  */
 class Engine implements EngineInterface
 {
-    /**
-     * @var Worker
-     */
-    private $worker;
-
-    /**
-     * @var HttpClient
-     */
-    private $httpClient;
+    private Worker $worker;
+    private HttpClient $httpClient;
 
     public function __construct()
     {
@@ -57,9 +50,6 @@ class Engine implements EngineInterface
         $this->httpClient = new HttpClient($this->worker);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function serve(DispatchInterface $dispatch): void
     {
         while ($request = $this->acceptRequest()) {
@@ -74,10 +64,7 @@ class Engine implements EngineInterface
         }
     }
 
-    /**
-     * @return RequestInterface|null
-     */
-    public function acceptRequest()
+    public function acceptRequest(): ?RequestInterface
     {
         $rawRequest = $this->httpClient->acceptRequest();
         if ($rawRequest === null) {
@@ -92,9 +79,6 @@ class Engine implements EngineInterface
         );
     }
 
-    /**
-     * @param ResponseInterface $response
-     */
     public function respond(ResponseInterface $response): void
     {
         $this->httpClient->respond(

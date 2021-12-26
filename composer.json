@@ -11,9 +11,9 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
-    "psx/engine": "^0.1",
-    "spiral/roadrunner": "^1.8"
+    "php": ">=8.0",
+    "psx/engine": "^1.0",
+    "spiral/roadrunner": "^2.6"
   },
   "autoload": {
     "psr-4": {
