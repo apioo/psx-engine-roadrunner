@@ -58,7 +58,7 @@ class Engine implements EngineInterface
 
                 $this->respond($response);
             } catch (\Throwable $e) {
-                $this->worker->error((string) $e);
+                $this->httpWorker->getWorker()->error((string) $e);
             }
         }
     }
