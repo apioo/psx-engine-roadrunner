@@ -28,6 +28,7 @@ use PSX\Http\ResponseInterface;
 use PSX\Http\Server\ResponseFactory;
 use PSX\Uri\Uri;
 use Spiral\RoadRunner\Http\HttpWorker;
+use Spiral\RoadRunner\Http\PSR7Worker;
 use Spiral\RoadRunner\Worker;
 
 /**
@@ -51,7 +52,7 @@ class Engine implements EngineInterface
 
     public function serve(DispatchInterface $dispatch): void
     {
-        while ($request = $this->acceptRequest()) {
+        while ($request = $this->waitRequest()) {
             try {
                 $response = (new ResponseFactory())->createResponse();
                 $response = $dispatch->route($request, $response);
@@ -63,26 +64,29 @@ class Engine implements EngineInterface
         }
     }
 
-    public function acceptRequest(): ?RequestInterface
+    public function waitRequest(): ?RequestInterface
     {
-        $rawRequest = $this->httpWorker->waitRequest();
-        if ($rawRequest === null) {
+        $httpRequest = $this->httpWorker->waitRequest();
+        if ($httpRequest === null) {
             return null;
         }
 
+        $uri = new Uri($httpRequest->uri);
+        $uri = $uri->withParameters($httpRequest->query);
+
         return new Request(
-            new Uri($rawRequest['ctx']['uri']),
-            $rawRequest['ctx']['method'],
-            $rawRequest['ctx']['headers'],
-            $rawRequest['body']
+            $uri,
+            $httpRequest->method,
+            $httpRequest->headers,
+            $httpRequest->body
         );
     }
 
     public function respond(ResponseInterface $response): void
     {
         $this->httpWorker->respond(
-            $response->getStatusCode() ?? 200,
-            $response->getBody()->__toString(),
+            $response->getStatusCode(),
+            (string) $response->getBody(),
             $response->getHeaders()
         );
     }
