@@ -27,8 +27,7 @@ use PSX\Http\RequestInterface;
 use PSX\Http\ResponseInterface;
 use PSX\Http\Server\ResponseFactory;
 use PSX\Uri\Uri;
-use Spiral\Goridge\StreamRelay;
-use Spiral\RoadRunner\HttpClient;
+use Spiral\RoadRunner\Http\HttpWorker;
 use Spiral\RoadRunner\Worker;
 
 /**
@@ -42,12 +41,12 @@ use Spiral\RoadRunner\Worker;
 class Engine implements EngineInterface
 {
     private Worker $worker;
-    private HttpClient $httpClient;
+    private HttpWorker $httpWorker;
 
     public function __construct()
     {
-        $this->worker     = new Worker(new StreamRelay(STDIN, STDOUT));
-        $this->httpClient = new HttpClient($this->worker);
+        $this->worker     = Worker::create();
+        $this->httpWorker = new HttpWorker($this->worker);
     }
 
     public function serve(DispatchInterface $dispatch): void
@@ -66,7 +65,7 @@ class Engine implements EngineInterface
 
     public function acceptRequest(): ?RequestInterface
     {
-        $rawRequest = $this->httpClient->acceptRequest();
+        $rawRequest = $this->httpWorker->waitRequest();
         if ($rawRequest === null) {
             return null;
         }
@@ -81,7 +80,7 @@ class Engine implements EngineInterface
 
     public function respond(ResponseInterface $response): void
     {
-        $this->httpClient->respond(
+        $this->httpWorker->respond(
             $response->getStatusCode() ?? 200,
             $response->getBody()->__toString(),
             $response->getHeaders()
