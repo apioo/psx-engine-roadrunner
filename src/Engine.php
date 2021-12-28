@@ -28,7 +28,6 @@ use PSX\Http\ResponseInterface;
 use PSX\Http\Server\ResponseFactory;
 use PSX\Uri\Uri;
 use Spiral\RoadRunner\Http\HttpWorker;
-use Spiral\RoadRunner\Http\PSR7Worker;
 use Spiral\RoadRunner\Worker;
 
 /**
