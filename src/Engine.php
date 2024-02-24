@@ -45,7 +45,7 @@ class Engine implements EngineInterface
 
     public function __construct()
     {
-        $this->worker     = Worker::create();
+        $this->worker = Worker::create();
         $this->httpWorker = new HttpWorker($this->worker);
     }
 
@@ -70,7 +70,7 @@ class Engine implements EngineInterface
             return null;
         }
 
-        $uri = new Uri($httpRequest->uri);
+        $uri = Uri::parse($httpRequest->uri);
         $uri = $uri->withParameters($httpRequest->query);
 
         return new Request(

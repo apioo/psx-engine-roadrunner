@@ -12,9 +12,9 @@
   ],
   "require": {
     "php": ">=8.0",
-    "psx/engine": "^1.0",
-    "spiral/roadrunner": "^2.6",
-    "spiral/roadrunner-http": "^2.0"
+    "psx/engine": "^2.0",
+    "spiral/roadrunner": "^2023.3",
+    "spiral/roadrunner-http": "^3.0"
   },
   "autoload": {
     "psr-4": {
