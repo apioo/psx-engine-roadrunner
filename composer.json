@@ -13,7 +13,7 @@
   "require": {
     "php": ">=8.0",
     "psx/engine": "^2.0",
-    "spiral/roadrunner": "^2023.3",
+    "spiral/roadrunner": "^2025.1",
     "spiral/roadrunner-http": "^3.0"
   },
   "autoload": {

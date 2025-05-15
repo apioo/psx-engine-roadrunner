@@ -3,7 +3,7 @@
  * PSX is an open source PHP framework to develop RESTful APIs.
  * For the current version and information visit <https://phpsx.org>
  *
- * Copyright 2010-2020 Christoph Kappestein <christoph.kappestein@gmail.com>
+ * Copyright (c) Christoph Kappestein <christoph.kappestein@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,12 @@ class Engine implements EngineInterface
 
     public function waitRequest(): ?RequestInterface
     {
-        $httpRequest = $this->httpWorker->waitRequest();
+        try {
+            $httpRequest = $this->httpWorker->waitRequest();
+        } catch (\JsonException) {
+            return null;
+        }
+
         if ($httpRequest === null) {
             return null;
         }
@@ -81,6 +86,9 @@ class Engine implements EngineInterface
         );
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function respond(ResponseInterface $response): void
     {
         $this->httpWorker->respond(
